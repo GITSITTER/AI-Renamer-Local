@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;">
+  <title>AI Renamer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <button class="back-btn hidden" id="backBtn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+        </button>
+        <div class="logo">
+          <span class="logo-icon">🔮</span>
+          <span class="logo-text" id="pageTitle">AI Renamer</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <button class="icon-btn" id="historyBtn" title="History">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </button>
+        <button class="icon-btn" id="settingsBtn" title="Settings">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Home Page -->
+      <div class="page active" id="homePage">
+        <div class="drop-zone" id="dropZone">
+          <div class="drop-zone-content">
+            <div class="drop-icons">
+              <svg class="drop-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+                <polyline points="10 9 9 9 8 9"/>
+              </svg>
+              <svg class="drop-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21"/>
+              </svg>
+              <svg class="drop-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+              </svg>
+            </div>
+            <h2 class="drop-title">Drag and drop your files here</h2>
+            <p class="drop-subtitle">Text files, images, and documents are supported</p>
+            <div class="select-buttons">
+              <button class="select-btn" id="selectFilesBtn">Select Files</button>
+              <button class="select-btn secondary" id="selectFolderBtn">Select Folder</button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- File Queue (hidden by default) -->
+        <div class="file-queue hidden" id="fileQueue">
+          <div class="queue-header">
+            <h3>Files to Rename</h3>
+            <button class="clear-queue-btn" id="clearQueueBtn">Clear All</button>
+          </div>
+          <div class="queue-list" id="queueList"></div>
+          <div class="queue-actions">
+            <button class="add-more-btn" id="addMoreBtn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"/>
+                <line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+              Add More Files
+            </button>
+            <button class="rename-btn" id="renameAllBtn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 20h9"/>
+                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+              </svg>
+              Rename All
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Settings Page -->
+      <div class="page" id="settingsPage">
+        <div class="settings-container">
+          <!-- Mode Toggle -->
+          <div class="mode-toggle">
+            <button class="mode-btn active" data-mode="cloud" id="cloudModeBtn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/>
+              </svg>
+              Cloud
+            </button>
+            <button class="mode-btn" data-mode="local" id="localModeBtn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                <line x1="8" y1="21" x2="16" y2="21"/>
+                <line x1="12" y1="17" x2="12" y2="21"/>
+              </svg>
+              Local
+            </button>
+          </div>
+          <p class="mode-description" id="modeDescription">Files are processed privately in the cloud.</p>
+
+          <!-- AI Configuration -->
+          <section class="settings-section">
+            <h3 class="section-title">AI Configuration</h3>
+            
+            <!-- Cloud Mode Settings -->
+            <div class="cloud-settings" id="cloudSettings">
+              <div class="form-group">
+                <label for="imageModel">Image model</label>
+                <select id="imageModel" class="form-select">
+                  <option value="llama-4-scout-17b">Llama 4 Scout 17b</option>
+                  <option value="gpt-4o">GPT-4o</option>
+                  <option value="gpt-4-turbo">GPT-4 Turbo</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="textModel">Text model</label>
+                <select id="textModel" class="form-select">
+                  <option value="gpt-3.5-turbo">GPT 3.5 Turbo</option>
+                  <option value="gpt-4o">GPT-4o</option>
+                  <option value="gpt-4-turbo">GPT-4 Turbo</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Local Mode Settings -->
+            <div class="local-settings hidden" id="localSettings">
+              <div class="form-group">
+                <label for="provider">Provider</label>
+                <select id="provider" class="form-select">
+                  <option value="ollama">Ollama</option>
+                  <option value="lm-studio">LM Studio</option>
+                  <option value="openai">OpenAI</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="model">Model</label>
+                <input type="text" id="model" class="form-input" placeholder="llava:13b" value="llava:13b">
+                <div class="model-suggestions hidden" id="modelSuggestions"></div>
+              </div>
+              <div class="form-group" id="apiKeyGroup">
+                <label for="apiKey">API Key</label>
+                <input type="password" id="apiKey" class="form-input" placeholder="Enter your API key">
+              </div>
+              <div class="form-group">
+                <label for="baseUrl">Base URL</label>
+                <input type="text" id="baseUrl" class="form-input" placeholder="http://127.0.0.1:11434">
+              </div>
+            </div>
+          </section>
+
+          <!-- Output Settings -->
+          <section class="settings-section">
+            <h3 class="section-title">Output Settings</h3>
+            <div class="form-group">
+              <label for="caseStyle">Case style</label>
+              <select id="caseStyle" class="form-select">
+                <option value="kebabCase">Kebab case (two-words)</option>
+                <option value="camelCase">Camel case (twoWords)</option>
+                <option value="pascalCase">Pascal case (TwoWords)</option>
+                <option value="snakeCase">Snake case (two_words)</option>
+                <option value="capitalCase">Capital case (Two Words)</option>
+                <option value="constantCase">Constant case (TWO_WORDS)</option>
+                <option value="dotCase">Dot case (two.words)</option>
+                <option value="noCase">No case (two words)</option>
+                <option value="sentenceCase">Sentence case (Two words)</option>
+                <option value="trainCase">Train case (Two-Words)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="language">Output language</label>
+              <select id="language" class="form-select">
+                <option value="English">English</option>
+                <option value="Spanish">Spanish</option>
+                <option value="French">French</option>
+                <option value="German">German</option>
+                <option value="Italian">Italian</option>
+                <option value="Portuguese">Portuguese</option>
+                <option value="Chinese">Chinese</option>
+                <option value="Japanese">Japanese</option>
+                <option value="Korean">Korean</option>
+                <option value="Russian">Russian</option>
+                <option value="Arabic">Arabic</option>
+                <option value="Turkish">Turkish</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="maxChars">Max. number of characters</label>
+              <input type="number" id="maxChars" class="form-input" value="25" min="5" max="100">
+            </div>
+            <div class="form-group">
+              <label for="customInstructions">Custom instructions</label>
+              <textarea id="customInstructions" class="form-textarea" placeholder="Enter custom instructions" rows="3"></textarea>
+            </div>
+          </section>
+
+          <!-- About Section -->
+          <section class="settings-section about-section">
+            <h3 class="section-title">About</h3>
+            <p class="about-text">AI Renamer v1.0.0</p>
+            <p class="about-text">Intelligently rename your files using local AI models.</p>
+          </section>
+
+          <!-- Actions -->
+          <div class="settings-actions">
+            <button class="sign-out-btn" id="signOutBtn">Sign out</button>
+            <button class="save-btn" id="saveSettingsBtn">Save Changes</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- History Page -->
+      <div class="page" id="historyPage">
+        <div class="history-container">
+          <table class="history-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>New Name</th>
+                <th class="sortable" id="sortDate">
+                  Date
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M7 15l5 5 5-5"/>
+                    <path d="M7 9l5-5 5 5"/>
+                  </svg>
+                </th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="historyBody">
+              <!-- History items will be inserted here -->
+            </tbody>
+          </table>
+          <div class="empty-state" id="emptyHistory">
+            <p class="empty-text">No records found</p>
+          </div>
+          <div class="pagination">
+            <button class="pagination-btn" id="prevPageBtn" disabled>Previous</button>
+            <span class="page-info" id="pageInfo">Page 1 of 0</span>
+            <button class="pagination-btn primary" id="nextPageBtn">Next</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Toast Notifications -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Processing Modal -->
+  <div class="modal hidden" id="processingModal">
+    <div class="modal-content">
+      <div class="spinner"></div>
+      <h3>Processing Files</h3>
+      <p class="processing-status" id="processingStatus">Renaming file 1 of 5...</p>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
+

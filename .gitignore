@@ -1,0 +1,55 @@
+# Dependencies
+node_modules/
+gui/node_modules/
+package-lock.json
+gui/package-lock.json
+
+# Build outputs
+dist/
+gui/dist/
+*.exe
+*.dmg
+*.AppImage
+build/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment
+.env
+.env.local
+
+# Cache
+.cache/
+.npm/
+electron-builder-cache/
+
+# Config files (user-specific)
+ai-renamer.json
+ai-renamer-gui.json
+ai-renamer-history.json
+
+# Python cache (if any)
+__pycache__/
+*.pyc
+*.pyo
+
+# Temporary files
+*.tmp
+*.temp
+
